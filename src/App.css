@@ -1,0 +1,37 @@
+.App {
+  text-align: center;
+}
+
+.modal-container>div {
+	padding: 30px;
+
+	position:relative;
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 5px, rgba(0, 0, 0, 0.22) 0px 0px 5px !important;/*I didn't find how to change this shadow via properties*/
+}
+
+.header{
+	background-color: #f0f0f0;
+	display: flex;
+	justify-content: space-between;
+	align-content: center;
+	border-top-right-radius: 15px;
+	border-top-left-radius: 15px;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.header-title{
+	align-self: center;
+}
+
+.my-list{
+	list-style: none;
+	padding: 0;
+
+}
+
+.my-list-item{
+	display: flex;
+	max-width: 280px;
+	justify-content: space-between;
+}
+
