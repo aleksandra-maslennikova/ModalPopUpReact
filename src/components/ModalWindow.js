@@ -41,16 +41,20 @@ const customModalBodyStyle = {
 export default class ModalWindow extends React.Component {
   constructor(props) {
     super(props);
+debugger
     this.state = {
       open: false,
-      listItems: [
+      listItems: this.initializeListItems ()
+      
+    };
+  }
+  initializeListItems = () => {
+   let listItems=JSON.parse(window.sessionStorage.getItem("listItems"));
+   return listItems|| [
         { id: 0, selectValue: 1, inputValue: 22 },
         { id: 1, selectValue: 2, inputValue: 12 },
         { id: 2, selectValue: 3, inputValue: 4 }
-      ]
-    };
-  }
-
+      ] }
   callBack = (props) => {
     this.setState({ listItems: props });
   };
@@ -135,9 +139,8 @@ class ModalWindowList extends React.Component {
     this.callBack = this.props.callBack;
   }
 
-
-
   handleSave = () => {
+    window.sessionStorage.setItem("listItems", JSON.stringify(this.listItems));
     this.callBack(this.listItems);
   };
 
@@ -180,7 +183,7 @@ class ModalWindowList extends React.Component {
 
   createListItem = (listItem) => {
     return (<li className='my-list-item' key={listItem.id} >
-      <ModalWindowSelect value={listItem.selectValue} changeSelectValue={(e, index,value) => this.changeSelectValue(listItem.id, e, index, value)} dataIdx={listItem.id} />
+      <ModalWindowSelect value={listItem.selectValue} changeSelectValue={(e, index, value) => this.changeSelectValue(listItem.id, e, index, value)} dataIdx={listItem.id} />
       <ModalWindowInput value={listItem.inputValue} changeInputValue={(e, value) => this.changeInputValue(listItem.id, e, value)} id={'i' + this.generateId()} />
       <IconButton iconStyle={listButtonStyle} className='icon-button' onTouchTap={() => this.deleteListItem(listItem.id)} ><NavigationClose /></IconButton>
     </li>)
