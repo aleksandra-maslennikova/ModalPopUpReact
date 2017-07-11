@@ -11,6 +11,13 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 6006",
+     "build-storybook": "build-storybook -s public -o .out",
+    "deploy-storybook": "storybook-to-ghpages"
+  },
+  "devDependencies": {
+    "@storybook/react": "^3.1.8",
+    "@storybook/storybook-deployer": "^2.0.0"
   }
 }

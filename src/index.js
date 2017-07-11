@@ -5,7 +5,6 @@ import ModalWindow from './components/ModalWindow';
 import './index.css';
 
 
-
 export default class App extends Component {
   render() {
     return (
@@ -18,6 +17,3 @@ export default class App extends Component {
 
 injectTapEventPlugin();
 ReactDOM.render(<App />, document.getElementById('root'));
-
-
-

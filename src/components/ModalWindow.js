@@ -12,7 +12,8 @@ import TextField from 'material-ui/TextField';
 /*-------------------- Modal window--------------------------*/
 
 const customContentStyle = {
-  maxWidth: '500px',
+  maxWidth: '400px',
+  minWidth: '320px'
 };
 
 const customOverlayStyle = {
@@ -28,11 +29,12 @@ const listButtonStyle = {
   borderRadius: '50%'
 };
 const customActionsContainerStyle = {
-  textAlign: 'left'
+  textAlign: 'left',
+  padding: '0'
 }
 
 const customModalBodyStyle = {
-  borderBottom: 'none'
+  borderBottom: 'none',
 }
 
 
@@ -78,18 +80,18 @@ export default class ModalWindow extends React.Component {
   render() {
     const actions = [
       <FlatButton
-        label="Добавить"
+        label='Добавить'
         primary={true}
         onTouchTap={this.handleAdd}
-        className="add-button"
+        className='add-button'
       />,
       <RaisedButton
-        label="Сохранить"
+        label='Сохранить'
         primary={true}
         onTouchTap={this.handleSave}
       />,
       <FlatButton
-        label="Отмена"
+        label='Отмена'
         primary={true}
         onTouchTap={this.handleCansel}
       />,
@@ -98,11 +100,11 @@ export default class ModalWindow extends React.Component {
     return (
       <MuiThemeProvider>
         <div>
-          <RaisedButton label="Modal Dialog" onTouchTap={this.handleOpen} />
+          <RaisedButton label='Открыть' onTouchTap={this.handleOpen} />
           <Dialog
             title={<div className='header'>
               <div className='header-title'>Структура номеров</div>
-              <IconButton onTouchTap={this.handleClose}><NavigationClose /></IconButton></div>}
+              <IconButton hoveredStyle={{background:'#ccc'}} style={{borderRadius:'50%'}} onTouchTap={this.handleClose}><NavigationClose /></IconButton></div>}
             actions={actions}
             modal={true}
             contentStyle={customContentStyle}
@@ -146,7 +148,7 @@ class ModalWindowList extends React.Component {
   };
 
   addNewListItem = () => {
-    let newItem = { id: this.generateId(), selectValue: 1, inputValue: 22 };
+    let newItem = { id: this.generateId(), selectValue: 1, inputValue: 0 };
     let newItems = this.listItems.slice();
     newItems.push(newItem);
     this.listItems = newItems;
@@ -160,7 +162,7 @@ class ModalWindowList extends React.Component {
     this.forceUpdate();
   };
 
-  changedSelectValue = (id, value) => {
+  changeSelectValue = (id, value) => {
     let newListItems = this.listItems.slice();
     for (let i = 0; i < newListItems.length; i++) {
       if (newListItems[i].id === id) {
@@ -171,7 +173,7 @@ class ModalWindowList extends React.Component {
     this.forceUpdate();
   };
 
-  changedInputValue = (id, value) => {
+  changeInputValue = (id, value) => {
     debugger
     let newListItems = this.listItems.slice();
     for (let i = 0; i < newListItems.length; i++) {
@@ -185,9 +187,9 @@ class ModalWindowList extends React.Component {
 
   createListItem = (listItem) => {
     return (<li className='my-list-item' key={listItem.id} >
-      <ModalWindowSelect value={listItem.selectValue} changedSelectValue={this.changedSelectValue} dataIdx={listItem.id} />
-      <ModalWindowInput value={listItem.inputValue} changedInputValue={this.changedInputValue} dataIdx={listItem.id} id={'i' + this.generateId()} />
-      <IconButton iconStyle={listButtonStyle} className = "icon-button" onTouchTap={() => this.deleteListItem(listItem.id)} ><NavigationClose /></IconButton>
+      <ModalWindowSelect value={listItem.selectValue} changeSelectValue={this.changeSelectValue} dataIdx={listItem.id} />
+      <ModalWindowInput value={listItem.inputValue}  changeInputValue={this.changeInputValue} dataIdx={listItem.id} id={'i' + this.generateId()} />
+      <IconButton iconStyle={listButtonStyle} className = 'icon-button' onTouchTap={() => this.deleteListItem(listItem.id)} ><NavigationClose /></IconButton>
     </li>)
   };
 
@@ -218,7 +220,7 @@ const selectIconStyle = {
 class ModalWindowSelect extends React.Component {
 
   handleChange = (e, index, value) => {
-    this.props.changedSelectValue(this.props.dataIdx, value);
+    this.props.changeSelectValue(this.props.dataIdx, value);
   };
 
   render() {
@@ -240,14 +242,14 @@ class ModalWindowSelect extends React.Component {
 class ModalWindowInput extends Component {
 
   handleChange = (e, value) => {
-    this.props.changedInputValue(this.props.dataIdx, value);
+    this.props.changeInputValue(this.props.dataIdx, value);
   }
 
   render() {
     return (
       <TextField
-        type="number"
-        style={{ width: 50 }}
+        type='number'
+        style={{ width: 50, cursor:'pointer' }}
         onChange={this.handleChange}
         defaultValue={this.props.value}
         id={this.props.id}
