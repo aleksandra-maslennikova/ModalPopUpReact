@@ -37,30 +37,37 @@ const customModalBodyStyle = {
   borderBottom: 'none',
 }
 
-
 export default class ModalWindow extends React.Component {
   constructor(props) {
     super(props);
-debugger
+    debugger
     this.state = {
       open: false,
-      listItems: this.initializeListItems ()
-      
+      listItems: this.initializeListItems()
+
     };
   }
   initializeListItems = () => {
-   let listItems=JSON.parse(window.sessionStorage.getItem("listItems"));
-   return listItems|| [
-        { id: 0, selectValue: 1, inputValue: 22 },
-        { id: 1, selectValue: 2, inputValue: 12 },
-        { id: 2, selectValue: 3, inputValue: 4 }
-      ] }
-  callBack = (props) => {
+    let listItems = JSON.parse(window.sessionStorage.getItem("listItems"));
+    return listItems || [
+      { id: 0, selectValue: 1, inputValue: 22 },
+      { id: 1, selectValue: 2, inputValue: 12 },
+      { id: 2, selectValue: 3, inputValue: 4 }
+    ]
+  }
+  
+
+  getNextState = (props) => {
     this.setState({ listItems: props });
   };
 
   handleOpen = () => {
     this.setState({ open: true });
+    document.body.addEventListener('keydown', (e) => {
+      if (e.keyCode===13) {
+        this.handleSave();
+      }
+    })
   };
 
   handleClose = () => {
@@ -110,15 +117,16 @@ debugger
               <div className='header-title'>Структура номеров</div>
               <IconButton hoveredStyle={{ background: '#ccc' }} style={{ borderRadius: '50%' }} onTouchTap={this.handleClose}><NavigationClose /></IconButton></div>}
             actions={actions}
-            modal={true}
+            modal={false}
             contentStyle={customContentStyle}
             open={this.state.open}
+            onRequestClose={this.handleClose}
             overlayStyle={customOverlayStyle}
             autoScrollBodyContent={true}
             contentClassName='modal-container'
             actionsContainerStyle={customActionsContainerStyle}
             bodyStyle={customModalBodyStyle}
-            children={<ModalWindowList nextState={this.state.listItems} callBack={this.callBack} ref='list' />}>
+            children={<ModalWindowList nextState={this.state.listItems} getNextState={this.getNextState} ref='list' />}>
           </Dialog>
         </div>
       </MuiThemeProvider>
@@ -136,12 +144,13 @@ class ModalWindowList extends React.Component {
     }
     this.counter = 100;
     this.listItems = JSON.parse(JSON.stringify(this.state.listItems));
-    this.callBack = this.props.callBack;
+    this.getNextState = this.props.getNextState;
   }
+
 
   handleSave = () => {
     window.sessionStorage.setItem("listItems", JSON.stringify(this.listItems));
-    this.callBack(this.listItems);
+    this.getNextState(this.listItems);
   };
 
   generateId = () => {
