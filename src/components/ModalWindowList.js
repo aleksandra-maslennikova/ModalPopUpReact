@@ -19,8 +19,9 @@ export default class ModalWindowList extends React.Component {
       listItems: this.props.nextState
     }
     this.counter = 100;
-    this.listItems = JSON.parse(JSON.stringify(this.state.listItems));
+    this.listItems = [...this.state.listItems];
     this.getNextState = this.props.getNextState;
+    this.ableSaveButton = this.props.ableSaveButton;
   }
 
 
@@ -39,6 +40,7 @@ export default class ModalWindowList extends React.Component {
     newItems.push(newItem);
     this.listItems = newItems;
     this.forceUpdate();
+    this.ableSaveButton();
   };
 
   deleteListItem = (id) => {
@@ -46,6 +48,7 @@ export default class ModalWindowList extends React.Component {
       return elem.id !== id;
     });
     this.forceUpdate();
+    this.ableSaveButton();
   };
 
   changeSelectValue = (listItemId, e, index, value) => {
@@ -55,6 +58,7 @@ export default class ModalWindowList extends React.Component {
       }
     }
     this.forceUpdate();
+    this.ableSaveButton();
   };
 
   changeInputValue = (listItemId, e, value) => {
@@ -64,6 +68,7 @@ export default class ModalWindowList extends React.Component {
       }
     }
     this.forceUpdate();
+    this.ableSaveButton();
   };
 
   createListItem = (listItem) => {

@@ -20,11 +20,11 @@ const customOverlayStyle = {
 const customActionsContainerStyle = {
   textAlign: 'left',
   padding: '0'
-}
+};
 
 const customModalBodyStyle = {
   borderBottom: 'none',
-}
+};
 
 export default class ModalWindow extends React.Component {
   constructor(props) {
@@ -32,6 +32,7 @@ export default class ModalWindow extends React.Component {
     debugger
     this.state = {
       open: false,
+      save: true,
       listItems: this.initializeListItems()
     };
   }
@@ -50,7 +51,7 @@ export default class ModalWindow extends React.Component {
   };
 
   handleOpen = () => {
-    this.setState({ open: true });
+    this.setState({ open: true, save: true });
     document.body.addEventListener('keydown', (e) => {
       if (e.keyCode===13) {
         this.handleSave();
@@ -74,6 +75,10 @@ export default class ModalWindow extends React.Component {
     this.refs.list.handleSave();
     this.setState({ open: false });
   };
+  
+  ableSaveButton=()=>{
+    this.setState({save:false})
+  }
 
   render() {
     const actions = [
@@ -87,6 +92,7 @@ export default class ModalWindow extends React.Component {
         label='Сохранить'
         primary={true}
         onTouchTap={this.handleSave}
+        disabled={this.state.save}
       />,
       <FlatButton
         label='Отмена'
@@ -113,7 +119,7 @@ export default class ModalWindow extends React.Component {
             contentClassName='modal-container'
             actionsContainerStyle={customActionsContainerStyle}
             bodyStyle={customModalBodyStyle}
-            children={<ModalWindowList nextState={this.state.listItems} getNextState={this.getNextState} ref='list' />}>
+            children={<ModalWindowList nextState={this.state.listItems} getNextState={this.getNextState} ableSaveButton = {this.ableSaveButton} ref='list' />}>
           </Dialog>
         </div>
       </MuiThemeProvider>
