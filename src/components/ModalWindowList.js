@@ -19,7 +19,7 @@ export default class ModalWindowList extends React.Component {
       listItems: this.props.nextState
     }
     this.counter = 100;
-    this.listItems = [...this.state.listItems];
+    this.listItems = JSON.parse(JSON.stringify(this.state.listItems));
     this.getNextState = this.props.getNextState;
     this.ableSaveButton = this.props.ableSaveButton;
   }
